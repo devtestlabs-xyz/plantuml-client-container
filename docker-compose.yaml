@@ -1,0 +1,29 @@
+version: "3.7"
+services:
+  plantuml-client:
+    image: devtestlabs/plantuml-client:latest
+    volumes:
+      - type: bind
+        source: ${PUML_HOST_MOUNT}
+        target: /puml
+      - type: bind
+        source: ${IMAGES_HOST_MOUNT}
+        target: /images
+#    env_file: 
+#        - .env
+    environment: 
+        - PLANTUML_SERVER_URI_=${PLANTUML_SERVER_URI}
+        - UID_=${UID}
+        - GID_=${GID}
+        - OUT_IMAGE_FILE_FORMAT_=${OUT_IMAGE_FILE_FORMAT}
+    stdin_open: true
+    tty: true
+    depends_on:
+        - plantuml-server
+  plantuml-server:
+    image: devtestlabs/plantuml-server:latest
+    ports:
+        - "${PLANTUML_SERVER_HOST_PORT}:8080"
+    stdin_open: false
+    tty: false
+

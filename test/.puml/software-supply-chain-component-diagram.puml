@@ -1,0 +1,29 @@
+@startuml
+
+!pragma horizontalLineBetweenDifferentPackageAllowed
+skinparam maxMessageSize 100
+scale 900 width
+
+
+component "Work Management System" as ticketSys
+component "Version Control System" as vcs
+component "Artifact/Container Manager n" as binMgr #lightblue
+component "CI/CD Service" as cicd
+component "Automation Service n" as automator #lightblue
+component "Deployment Target n" as deployTargetN #lightblue
+component "Build Service n" as builder #lightblue
+component "Code Quality Service n" as codeQuality #lightblue
+component "Test Service n" as tester #lightblue
+
+cicd .left.> vcs : hooks
+cicd .down.> builder : executes
+cicd .up.> tester : executes
+cicd .up.> codeQuality : executes
+cicd .right.> automator : executes
+automator .right.> deployTargetN : provisions/configures/deploys
+builder .right.> binMgr : consumes
+cicd <.right.> binMgr : metadata exchange
+cicd .right.> binMgr : ships binaries
+ticketSys .down.>vcs
+builder .up.>vcs : consumes
+@enduml

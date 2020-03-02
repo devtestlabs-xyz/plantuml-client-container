@@ -1,0 +1,68 @@
+@startuml
+' http://plantuml.com/skinparam.html
+!pragma horizontalLineBetweenDifferentPackageAllowed
+skinparam nodesep 10
+skinparam ranksep 10
+
+skinparam handwritten true
+skinparam monochrome true
+skinparam packageStyle rect
+skinparam DefaultFontName FG Virgil
+' skinparam DefaultFontName Gunny Rewritten
+skinparam shadowing false
+
+title AWS-managed Active Directory infrastructure
+
+footer \n\n*not validated*
+skinparam FooterFontStyle italic
+skinparam FooterFontSize 10
+
+skinparam maxMessageSize 100
+
+skinparam rectangle {
+	roundCorner<<Public Subnet>> 25
+    'backgroundColor<<Public Subnet>> LightGreen
+    'backgroundColor<<Private Subnet>> LightBlue
+    roundCorner<<AWS AD>> 25
+    BorderStyle<<AWS AD>> dashed
+    BorderStyle<<Availability Zone>> dashed
+    BorderStyle<<AWS Region>> dashed
+}
+
+skinparam actorStyle awesome
+
+ 'rectangle "US West 2\n" <<AWS Region>> as region1 {
+    cloud "10.0.0.0/16" <<VPC>> as vpc {
+ 
+   
+        rectangle "US West 2b" <<Availability Zone>> as az2 {
+            rectangle "10.0.2.0/24" <<Private Subnet>> as dsSubnet2 {
+                node "AWS Active \nDirectory/DNS" <<AWS Service>> as ad2
+            }
+
+        }
+
+        rectangle "US West 2a" <<Availability Zone>> as az1 {
+        
+            rectangle "10.0.1.0/24" <<Private Subnet>> as dsSubnet1 {
+                node "AWS Active \nDirectory/DNS" <<AWS Service>> as ad1
+                node "AD Manager Client" <<AWS Service>> as adMgr1
+                node "Root CA" <<AWS Service>> as rootCA1
+                node "Subordinate CA" <<AWS Service>> as subCA1
+            }
+        }
+
+    }             
+'}
+
+'bastionSubnet -[hidden]-> awsAd
+adMgr1 .left.> ad1 : manage
+adMgr1 .right.> ad2 : manage
+subCA1 .up.> rootCA1 : cert auth requests
+ad1 .left.> subCA1 : cert auth requests
+
+
+'user1 .right.> bastion : "SSH using public key auth"
+'bastion .right.> ec2win : "RDP using AD credentials"
+'bastion .right.> ec2linux : "SSH using AD credentials"
+@enduml

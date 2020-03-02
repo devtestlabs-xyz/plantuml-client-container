@@ -1,0 +1,14 @@
+@startuml
+skinparam handwritten true
+skinparam monochrome true
+skinparam packageStyle rect
+skinparam DefaultFontName FG Virgil
+skinparam shadowing false
+
+title Authentication Sequence 3
+
+Alice->Bob: Authentication Request
+note right of Bob: Bob thinks about it
+Bob->Alice: Authentication Response
+
+@enduml

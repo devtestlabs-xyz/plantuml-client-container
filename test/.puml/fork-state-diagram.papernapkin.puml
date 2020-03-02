@@ -1,0 +1,21 @@
+@startuml
+skinparam handwritten true
+skinparam monochrome true
+skinparam packageStyle rect
+skinparam DefaultFontName FG Virgil
+skinparam shadowing false
+
+Title Example State Diagram
+
+state fork_state <<fork>>
+[*] --> fork_state
+fork_state --> State2
+fork_state --> State3
+
+state join_state <<join>>
+State2 --> join_state
+State3 --> join_state
+join_state --> State4
+State4 --> [*]
+
+@enduml

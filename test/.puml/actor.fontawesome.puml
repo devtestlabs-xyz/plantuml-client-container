@@ -1,0 +1,7 @@
+@startuml
+skinparam actorStyle awesome
+
+actor "DevOps" <<User>> as user1
+
+@enduml
+
