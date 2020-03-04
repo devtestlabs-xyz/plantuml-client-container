@@ -13,7 +13,7 @@ docker pull devtestlabs/plantuml-client:{{ VARIANT_TAG }}
 #### Pre-Flight
 Start PlantUML server
 ```
-docker run -d -p 8081:8080 devops/plantuml-server
+docker run -d -p 8081:8080 devtestlabs/plantuml-server
 ```
 The server is now listing to [http://localhost:8080/plantuml](http://localhost:8081/plantuml) and to http://{{ DOCKER_HOST_IP_OR_DNS }}:8081.
 
@@ -25,7 +25,7 @@ docker run -it --rm \
   -e UID_=$(id -u) \
   -e GID_=$(id -g) \
   -e OUT_IMAGE_FILE_FORMAT_="png" \
-  devops/plantuml-client
+  devtestlabs/plantuml-client
 ```
 
 *NOTE: `OUT_IMAGE_FILE_FORMAT_` is optional. The default value is `png`. The value is passed into and set in `entrypoint.sh`.*
@@ -94,7 +94,7 @@ If you want to advance your evaluation of this solution, open `.env.example` and
 # Build the Docker image locally
 
 ```
-docker build -t devtestlabs/plantuml-client .
+docker build -t devtestlabs/plantuml-client:local .
 ```
 
 # External References
